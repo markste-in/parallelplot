@@ -1,0 +1,51 @@
+# pyproject.toml
+
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "parallelplot"
+version = "0.0.0"
+description = "Plotting smooth parallel plots"
+readme = "README.md"
+authors = [{ name = "Tommy Markstein", email = "parallelplot@markste.in" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["parallel", "plot", "parallel-plot", "smooth", "parallelplot", "matplotlib", "plots"]
+dependencies = [
+    "pandas",
+    "matplotlib",
+]
+requires-python = ">=3.9"
+
+[project.urls]
+Homepage = "https://github.com/markste-in/parallelplot"
+
+#[project.scripts]
+#spplot = "ssplot.__main__:main"
+[tool.bumpver]
+current_version = "0.0.0"
+version_pattern = 'MAJOR.MINOR.PATCH[PYTAGNUM]'
+commit_message  = "Bump version {old_version} -> {new_version}"
+tag_message = "{new_version}"
+tag_scope = "default"
+pre_commit_hook = ""
+post_commit_hook = ""
+commit = true
+tag = true
+push = true
+
+[tool.bumpver.file_patterns]
+"pyproject.toml" = [
+    'current_version = "{version}"',
+    'version = "{version}"'
+]
+"src/spplot/__init__.py" = [
+    '^__version__ = "{version}"$',
+]
+
