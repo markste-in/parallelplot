@@ -5,24 +5,110 @@ import matplotlib.pyplot as plt
 from matplotlib.path import Path
 import matplotlib.patches as patches
 import matplotlib as mpl
+from matplotlib.ticker import FuncFormatter
 from collections.abc import Iterable
 
 from parallelplot.cmaps import purple_blue
 
-def plot(df, target_column = "", title = "", cmap = None):
 
+def plot(df,
+         target_column="",
+         title="",
+         cmap=None,
+         figsize=None,
+         title_font_size=18,
+         tick_label_size=10,
+         style=None,
+         order="max",
+         random_seed=None,
+         alpha=0.3,
+         lw=1):
+    """
+    Create a parallel coordinates plot from DataFrame.
+
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        The data to plot
+    target_column : str
+        Column name to use for coloring
+    title : str
+        Title of the plot
+    cmap : matplotlib.colors.Colormap
+        Colormap to use (defaults to 'hot')
+    figsize : tuple
+        Figure size as (width, height) in inches
+    title_font_size : int
+        Font size for the title
+    tick_label_size : int
+        Font size for tick labels
+    style : str, optional
+        Matplotlib style to use. If "dark_background", will use dark background style.
+        Default is None (uses standard matplotlib style)
+    order : str, optional
+        How to order the rows for plotting. Options:
+        - "max": Sort by target column descending (default)
+        - "min": Sort by target column ascending
+        - "random": Shuffle rows randomly (reduces overplotting)
+    random_seed : int, optional
+        Random seed for reproducible randomization. Only used if order="random".
+
+    Returns:
+    --------
+    fig : matplotlib.figure.Figure
+        The figure object
+    axes : list
+        List of axis objects
+    """
     if not cmap:
         cmap = mpl.colormaps['hot']
 
-    my_vars_names = df.columns.to_list()
+    # Define formatter function to round floats to 3 decimal places
+    def format_float(x, pos):
+        if isinstance(x, (float, np.float64, np.float32)):
+            return f"{x:.3f}"
+        return str(x)
+    
+    float_formatter = FuncFormatter(format_float)
+
+    # Drop NA values and reset index
+    df_plot = df.dropna().reset_index(drop=True)
+    
+    # If target column is specified, move it to the end (last column)
+    if target_column and target_column in df_plot.columns:
+        # Get all columns and move target to end
+        cols = df_plot.columns.tolist()
+        cols.remove(target_column)
+        cols = cols + [target_column]
+        
+        # Reorder the DataFrame
+        df_plot = df_plot[cols]
+        
+        # Apply ordering based on the order parameter
+        if order.lower() == "random":
+            # Set random seed for reproducibility if provided
+            if random_seed is not None:
+                np.random.seed(random_seed)
+            
+            # Shuffle the entire DataFrame randomly
+            df_plot = df_plot.sample(frac=1, random_state=random_seed).reset_index(drop=True)
+        
+        elif order.lower() == "min":
+            # Sort by target column ascending
+            df_plot = df_plot.sort_values(by=target_column, ascending=True)
+        
+        elif order.lower() == "max":
+            # Sort by target column descending
+            df_plot = df_plot.sort_values(by=target_column, ascending=False)
+        
+        else:
+            # Invalid order parameter, default to "max"
+            print(f"Warning: Invalid order parameter '{order}'. Using 'max' instead.")
+            df_plot = df_plot.sort_values(by=target_column, ascending=False)
+    
+    # Get column names after possible reordering
+    my_vars_names = df_plot.columns.to_list()
     my_vars = my_vars_names
-
-
-    # df_plot = df[my_vars]
-    df_plot = df.dropna().reset_index(drop = True)
-
-    if target_column:
-        df_plot = df_plot.sort_values(by=target_column, ascending=False)
 
     # Convert to numeric matrix:
     ym = []
@@ -37,31 +123,56 @@ def plot(df, target_column = "", title = "", cmap = None):
     ym = np.array(ym).T
 
     # Padding:
-    ymins = ym.min(axis = 0)
-    ymaxs = ym.max(axis = 0)
+    ymins = ym.min(axis=0).astype(float)  # Convert to float to handle decimal padding
+    ymaxs = ym.max(axis=0).astype(float)
     dys = ymaxs - ymins
-    ymins -= dys*0.05
-    ymaxs += dys*0.05
+    ymins -= dys * 0.05
+    ymaxs += dys * 0.05
 
     # Reverse some axes for better visual:
     axes_to_reverse = [1, 2]
     for a in axes_to_reverse:
-        ymaxs[a], ymins[a] = ymins[a], ymaxs[a]
+        if a < len(ymins):  # Ensure we don't go out of bounds
+            ymaxs[a], ymins[a] = ymins[a], ymaxs[a]
     dys = ymaxs - ymins
 
     # Adjust to the main axis:
     zs = np.zeros_like(ym)
     zs[:, 0] = ym[:, 0]
-    zs[:, 1:] = (ym[:, 1:] - ymins[1:])/dys[1:]*dys[0] + ymins[0]
+    zs[:, 1:] = (ym[:, 1:] - ymins[1:]) / dys[1:] * dys[0] + ymins[0]
 
-    range_min, range_max = df_plot[target_column].min(), df_plot[target_column].max()
-    print(range_min,range_max)
-    tick_label_size = 16
+    # Handle target column for coloring - create a mapping if it's a string column
+    # If we have a target column, it's now always the last column
+    target_idx = len(df_plot.columns) - 1 if target_column and target_column in df_plot.columns else 0
+    
+    if target_column and df_plot[target_column].dtype.kind in ["O", "S", "U"]:  # If target column is string/object
+        unique_values = df_plot[target_column].unique()
+        # Create a mapping from string values to numbers between 0 and 1
+        target_map = {val: i / (len(unique_values) - 1 if len(unique_values) > 1 else 1)
+                      for i, val in enumerate(sorted(unique_values))}
+        # No need to define range_min and range_max for string columns
+        print("Target column is string. Using sorted unique values for coloring.")
+    else:
+        # For numeric columns, continue using min and max
+        if target_column and target_column in df_plot.columns:
+            range_min, range_max = df_plot[target_column].min(), df_plot[target_column].max()
+            print(f"{range_min:.3f}, {range_max:.3f}")
+        else:
+            # Default values if no target column
+            range_min, range_max = 0, 1
 
-    with plt.style.context("dark_background"):
+    # Set up the plotting context with the appropriate style
+    if style == "dark_background":
+        # Use dark background style if specified
+        context_manager = plt.style.context("dark_background")
+    else:
+        # Use a null context manager for default style
+        context_manager = plt.style.context({})  # Empty dict means no style changes
+        
+    with context_manager:
         # Plot:
         fig, host_ax = plt.subplots(
-            figsize=(20, 10),
+            figsize=figsize if isinstance(figsize, tuple) else (10, 5),
             tight_layout=True
         )
 
@@ -75,7 +186,10 @@ def plot(df, target_column = "", title = "", cmap = None):
             )
             ax.spines.top.set_visible(False)
             ax.spines.bottom.set_visible(False)
-            ax.ticklabel_format(style='plain')
+            
+            # Set the formatter to round floats to 3 decimal places
+            ax.yaxis.set_major_formatter(float_formatter)
+            
             if ax != host_ax:
                 ax.spines.left.set_visible(False)
                 ax.yaxis.set_ticks_position("right")
@@ -97,6 +211,7 @@ def plot(df, target_column = "", title = "", cmap = None):
                 dic_count += 1
             else:
                 ax.tick_params(axis='y', labelsize=tick_label_size)
+                
         host_ax.set_xlim(
             left=0,
             right=ym.shape[1] - 1
@@ -104,8 +219,14 @@ def plot(df, target_column = "", title = "", cmap = None):
         host_ax.set_xticks(
             range(ym.shape[1])
         )
+        
+        # Modify labels to indicate target column
+        x_labels = my_vars_names.copy()
+        if target_column and target_column in df_plot.columns:
+            x_labels[-1] = f"{x_labels[-1]}\n(Target)"
+            
         host_ax.set_xticklabels(
-            my_vars_names,
+            x_labels,
             fontsize=tick_label_size
         )
         host_ax.tick_params(
@@ -123,62 +244,30 @@ def plot(df, target_column = "", title = "", cmap = None):
                              np.repeat(zs[j, :], 3)[1: -1]))
             codes = [Path.MOVETO] + [Path.CURVE4 for _ in range(len(verts) - 1)]
             path = Path(verts, codes)
-            # color_first_cat_var = my_palette[dics_vars[0][df_plot.iloc[j, 0]]]
-            cmap_value = ((df_plot.iloc[j, -1] - range_min) / range_max)
-            print(cmap_value)
+
+            # Calculate cmap_value differently based on data type
+            if target_column and df_plot[target_column].dtype.kind in ["O", "S", "U"]:  # String column
+                # Use the mapping for color
+                curr_value = df_plot.iloc[j, target_idx]
+                cmap_value = target_map[curr_value]
+            elif target_column:  # Numeric column
+                # Original calculation
+                cmap_value = (df_plot.iloc[j, target_idx] - range_min) / (
+                        range_max - range_min) if range_max > range_min else 0.5
+            else:
+                # Default value if no target column
+                cmap_value = 0.5
+
             patch = patches.PathPatch(
                 path,
                 facecolor="none",
-                lw=3,
-                alpha=0.3,
+                lw=lw,
+                alpha=alpha,
                 edgecolor=cmap(cmap_value)
             )
             host_ax.add_patch(patch)
 
     if title:
-        plt.title(title, fontsize=30)
-
-    plot_color_gradients(cmap)
+        plt.title(title, fontsize=title_font_size)
 
     return fig, axes
-
-def plot_color_gradients(cmap_list):
-
-    if not isinstance(cmap_list, list):
-        cmap_list = [cmap_list]
-
-    # https://matplotlib.org/stable/users/explain/colors/colormaps.html
-    gradient = np.linspace(0, 1, 256)
-    gradient = np.vstack((gradient, gradient))
-    # Create figure and adjust figure height to number of colormaps
-    nrows = len(cmap_list)
-    figh = 0.35 + 0.15 + (nrows + (nrows-1)*0.1)*0.22
-    fig, axs = plt.subplots(nrows=nrows, figsize=(6.4, figh))
-    fig.subplots_adjust(top=1-.35/figh, bottom=.15/figh, left=0.2, right=0.99)
-
-    #axs[0].set_title(f"{cmap_category} colormaps", fontsize=14)
-
-    if not isinstance(axs, Iterable):
-        axs = [axs]
-    for i, (ax, cmap_entry) in enumerate(zip(axs, cmap_list)):
-        if isinstance(cmap_entry, str):
-            cmap=mpl.colormaps[cmap_entry]
-            cmap_name = cmap_entry
-        else:
-            cmap = cmap_entry
-            cmap_name = f"cmap {i}"
-        ax.imshow(gradient, aspect='auto', cmap=cmap)
-        ax.text(-.01, .5, cmap_name, va='center', ha='right', fontsize=10, color=cmap(5),
-                transform=ax.transAxes)
-
-    # Turn off *all* ticks & spines, not just the ones with colormaps.
-    for ax in axs:
-        ax.set_axis_off()
-    return fig, axs
-
-data = np.random.random((100,4))
-df = pd.DataFrame(data, columns=["a","b","c","d"])
-
-plot(df=df, target_column = 'd', title="booooo")
-
-plt.show()
