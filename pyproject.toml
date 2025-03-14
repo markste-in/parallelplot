@@ -51,4 +51,3 @@ push = true
 "src/parallelplot/__init__.py" = [
     '^__version__ = "{version}"$',
 ]
-
