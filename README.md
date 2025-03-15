@@ -294,12 +294,9 @@ plt.show()
 
 ```
 
-    3.000, 9.000
-
-
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_4_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_4_0.png)
     
 
 
@@ -318,12 +315,9 @@ fig2, axes2 = pp.plot(
 plt.show()
 ```
 
-    3.000, 9.000
-
-
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_5_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_5_0.png)
     
 
 
@@ -346,12 +340,9 @@ plt.show()
 
 ```
 
-    3.000, 9.000
-
-
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_6_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_6_0.png)
     
 
 
@@ -381,12 +372,9 @@ plt.show()
 
 ```
 
-    3.000, 9.000
-
-
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_7_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_7_0.png)
     
 
 
@@ -407,12 +395,9 @@ fig3, axes3 = pp.plot(
 plt.show()
 ```
 
-    3.000, 9.000
-
-
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_8_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_8_0.png)
     
 
 
@@ -436,16 +421,8 @@ fig3, axes3 = pp.plot(
 plt.show()
 ```
 
-    3.000, 9.000
-
-
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_9_0.png)
     
 
-
-
-```python
-
-```

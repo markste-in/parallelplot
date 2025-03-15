@@ -196,7 +196,7 @@ def plot(df: pd.DataFrame,
         # For numeric columns, calculate min and max for color scaling
         if target_column and target_column in df_plot.columns:
             range_min, range_max = df_plot[target_column].min(), df_plot[target_column].max()
-            print(f"{range_min:.3f}, {range_max:.3f}")
+            # print(f"{range_min:.3f}, {range_max:.3f}")
         else:
             # Default values if no target column
             range_min, range_max = 0, 1
