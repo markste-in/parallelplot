@@ -296,7 +296,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_4_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_4_0.png)
     
 
 
@@ -317,7 +317,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_5_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_5_0.png)
     
 
 
@@ -342,7 +342,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_6_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_6_0.png)
     
 
 
@@ -374,7 +374,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_7_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_7_0.png)
     
 
 
@@ -397,7 +397,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_8_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_8_0.png)
     
 
 
@@ -423,6 +423,6 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files_files/output_9_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png)
     
 
