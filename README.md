@@ -1,3 +1,8 @@
+To install run
+
+``pip install parallelplot``
+
+
 ```python
 """
 Parallel Plot Demo with Wine Quality Dataset
@@ -11,7 +16,7 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 
 import parallelplot.plot as pp
-from parallelplot.cmaps import *
+from parallelplot.cmaps import purple_blue
 
 ```
 
@@ -294,7 +299,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_3_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_4_1.png)
     
 
 
@@ -308,6 +313,7 @@ fig2, axes2 = pp.plot(
     figsize=(16, 8),
     style="dark_background",
     lw=0.2,
+    # axes_to_reverse = [0, 1, 2, 5]
 )
 plt.show()
 ```
@@ -317,7 +323,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_4_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_5_1.png)
     
 
 
@@ -331,8 +337,10 @@ fig3, axes3 = pp.plot(
     figsize=(16, 8),
     cmap=purple_blue,
     style="dark_background",
-    lw=0.2,
-    order='min'
+    lw=0.1,
+    order='min',
+    alpha = 0.2,
+    axes_to_reverse = [1,2]
 )
 plt.show()
 
@@ -343,7 +351,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_5_1.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_6_1.png)
     
 
 
@@ -365,34 +373,12 @@ fig4, axes4 = pp.plot(
     cmap=cm.viridis,
     style="dark_background",
     lw=0.2,
+    axes_to_reverse = [1,2]
+
 
 )
 plt.show()
 
-```
-
-    3.000, 9.000
-
-
-
-    
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_6_1.png)
-    
-
-
-
-```python
-# Example 3: Different cmap 
-fig3, axes3 = pp.plot(
-    df=wine_df,
-    target_column='quality',
-    title="Wine Quality Dataset - Colored by Wine Type",
-    figsize=(16, 8),
-    cmap=cm.plasma,
-    style="dark_background",
-    lw=0.1,
-)
-plt.show()
 ```
 
     3.000, 9.000
@@ -412,10 +398,11 @@ fig3, axes3 = pp.plot(
     target_column='quality',
     title="Wine Quality Dataset - Colored by Wine Type",
     figsize=(16, 8),
-    cmap=cm.cool,
+    cmap=cm.plasma,
     style="dark_background",
     lw=0.1,
-    order='random'
+    axes_to_reverse = [1,2]
+
 )
 plt.show()
 ```
@@ -426,6 +413,33 @@ plt.show()
 
     
 ![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_8_1.png)
+    
+
+
+
+```python
+# Example 3: Different cmap 
+fig3, axes3 = pp.plot(
+    df=wine_df,
+    target_column='quality',
+    title="Wine Quality Dataset - Colored by Wine Type",
+    figsize=(16, 8),
+    cmap=cm.cool,
+    style="dark_background",
+    lw=0.1,
+    order='random',
+    axes_to_reverse = [1,2]
+
+)
+plt.show()
+```
+
+    3.000, 9.000
+
+
+
+    
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_1.png)
     
 
 
