@@ -158,6 +158,19 @@ def plot(df: pd.DataFrame,
     # Add padding (5% of the range on each end)
     axis_mins -= axis_ranges * 0.05
     axis_maxs += axis_ranges * 0.05
+    
+    # Handle columns with only one unique value
+    for i in range(len(axis_mins)):
+        if abs(axis_mins[i] - axis_maxs[i]) < 1e-10:  # If min and max are effectively equal
+            if axis_mins[i] == 0:
+                # If the value is zero, set limits to -0.5 and 0.5
+                axis_mins[i] = -0.5
+                axis_maxs[i] = 0.5
+            else:
+                # Otherwise, add +/- 10% of the value
+                value = axis_mins[i]
+                axis_mins[i] = value - abs(value) * 0.1
+                axis_maxs[i] = value + abs(value) * 0.1
 
     # Reverse specific axes for better visual appearance
     # This is a design choice for certain types of data
