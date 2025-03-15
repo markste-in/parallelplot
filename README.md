@@ -418,17 +418,19 @@ plt.show()
 
 
 ```python
-# Example 3: Different cmap 
+# Example 3: Different cmap and hide all axes
 fig3, axes3 = pp.plot(
     df=wine_df,
     target_column='quality',
     title="Wine Quality Dataset - Colored by Wine Type",
     figsize=(16, 8),
-    cmap=cm.cool,
+    cmap=cm.cool.reversed(),
     style="dark_background",
     lw=0.1,
-    order='random',
-    axes_to_reverse = [1,2]
+    # order='random',
+    hide_axes=True,
+    axes_to_reverse = [0]
+
 
 )
 plt.show()

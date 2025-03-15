@@ -24,7 +24,8 @@ def plot(df: pd.DataFrame,
          random_seed: Optional[int] = None,
          alpha: float = 0.3,
          lw: float = 1,
-         axes_to_reverse: Optional[List[int]] = []) -> Tuple[plt.Figure, List[plt.Axes]]:
+         axes_to_reverse: Optional[List[int]] = [],
+         hide_axes: bool = False) -> Tuple[plt.Figure, List[plt.Axes]]:
     """
     Create a parallel coordinates plot from DataFrame.
 
@@ -60,6 +61,8 @@ def plot(df: pd.DataFrame,
         Line width for the parallel coordinate lines
     axes_to_reverse: list
         Axes with reversed order
+    hide_axes: bool
+        Whether to hide all axes, their spines, ticks, and labels
 
     Returns:
     --------
@@ -290,6 +293,25 @@ def plot(df: pd.DataFrame,
         host_ax.spines.right.set_visible(False)
         host_ax.xaxis.tick_top()  # Move x-axis ticks to the top
         
+        # Hide all axes if requested
+        if hide_axes:
+            # Hide all tick marks and labels on the host axis
+            host_ax.set_xticks([])
+            host_ax.set_yticks([])
+            host_ax.set_xticklabels([])
+            host_ax.set_yticklabels([])
+            
+            # Hide all spines on the host axis
+            for spine in host_ax.spines.values():
+                spine.set_visible(False)
+            
+            # Hide all tick marks, labels, and spines on the other axes
+            for ax in axes[1:]:  # Skip host_ax since we already processed it
+                ax.set_yticks([])
+                ax.set_yticklabels([])
+                for spine in ax.spines.values():
+                    spine.set_visible(False)
+
         # Draw the parallel coordinate lines
         for row_idx in range(normalized_data_matrix.shape[0]):
             # Create smooth curves using Bezier paths
