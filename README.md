@@ -1,8 +1,6 @@
 # Generating nice smooth parallel plots!
 
-<img src="https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png" height="170" />
-&nbsp;
-<img src="https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_13_0.png" height="170" />
+<img src="https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png" height="150" />&nbsp;<img src="https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_13_0.png" height="150" />
 
 ## How to install
 
