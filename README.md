@@ -277,6 +277,13 @@ wine_df
 
 
 ```python
+# Manipulate the dataset to simulate small and large numbers
+wine_df["fixed acidity"] = wine_df["fixed acidity"] * 1e6
+wine_df["volatile acidity"] = wine_df["volatile acidity"] / 1e6
+```
+
+
+```python
 # Example 1: Basic parallel plot with default style
 fig1, axes1 = pp.plot(
     df=wine_df,
@@ -296,7 +303,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_4_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_5_0.png)
     
 
 
@@ -317,7 +324,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_5_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_6_0.png)
     
 
 
@@ -342,7 +349,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_6_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_7_0.png)
     
 
 
@@ -374,7 +381,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_7_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_8_0.png)
     
 
 
@@ -397,7 +404,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_8_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png)
     
 
 
@@ -423,6 +430,6 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_10_0.png)
     
 

@@ -53,7 +53,7 @@ def convert_notebook_to_markdown(notebook_path, output_path=None):
             
             # Update the references in the markdown
             old_path = filename
-            new_path = f"{base_name}_files/{filename}"
+            new_path = f"https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/{base_name}_files/{filename}"
             body_with_updated_paths = body_with_updated_paths.replace(old_path, new_path)
         
         # Write the updated markdown content

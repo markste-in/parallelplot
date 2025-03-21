@@ -75,12 +75,15 @@ def plot(df: pd.DataFrame,
     if not cmap:
         cmap = mpl.colormaps['hot']
 
-    # Define formatter function to round floats to 3 decimal places
-    def format_float(x: Union[float, int], pos: int) -> str:
-        """Format float values to 3 decimal places for axis ticks"""
+    # Define formatter function to round floats to 2 decimal places
+    def format_float(x: Union[float, int], decimal_places: int = 2) -> str:
+        """Format axis ticks: round floats to specified decimal places, keep integers untouched, and use scientific notation for small or large numbers."""
         if isinstance(x, (float, np.float64, np.float32)):
-            return f"{x:.3f}"
-        return str(x)
+            if abs(x) >= 1e5 or abs(x) < 1e-3:  # Use scientific notation for large or small numbers
+                return f"{x:.1e}"
+            return f"{x:.{decimal_places}f}".rstrip('0').rstrip('.')  # Round floats and remove trailing zeros
+        return str(x)  # Keep integers as they are
+
     
     # Create formatter function for axis labels
     float_formatter = FuncFormatter(format_float)
