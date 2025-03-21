@@ -1,22 +1,36 @@
-To install run
+# Generating nice smooth parallel plots!
 
-``pip install parallelplot``
+<img src="https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png" height="200" />&nbsp;
+<img src="https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_13_0.png" height="200" />
+
+## How to install
+
+Just run
+
+```shell
+pip install parallelplot
+```
+
+## Little Demo on the Wine Quality Dataset
+
+### First lets import some packages we need to get some sample data
 
 
 ```python
-"""
-Parallel Plot Demo with Wine Quality Dataset
-
-"""
-
-# Import libraries
+# Import libraries to handle data 
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 
+# The only thing that is really needs to be imported 
+# is the plot function from the parallelplot module 
+# and the pyplot module from matplotlib to display the plot
 import parallelplot.plot as pp
+import matplotlib.pyplot as plt
+
+
+# There is also a module that contains a nice colormap. In addition you can use the matplotlib colormap module
 from parallelplot.cmaps import purple_blue
+import matplotlib.cm as cm
 
 ```
 
@@ -282,6 +296,8 @@ wine_df["fixed acidity"] = wine_df["fixed acidity"] * 1e6
 wine_df["volatile acidity"] = wine_df["volatile acidity"] / 1e6
 ```
 
+## Create the plots from the imported data!
+
 
 ```python
 # Example 1: Basic parallel plot with default style
@@ -303,7 +319,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_5_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_8_0.png)
     
 
 
@@ -324,7 +340,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_6_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png)
     
 
 
@@ -349,7 +365,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_7_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_10_0.png)
     
 
 
@@ -381,7 +397,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_8_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_11_0.png)
     
 
 
@@ -404,7 +420,7 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_9_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_12_0.png)
     
 
 
@@ -430,6 +446,6 @@ plt.show()
 
 
     
-![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_10_0.png)
+![png](https://raw.githubusercontent.com/markste-in/parallelplot/refs/heads/main/README_files/output_13_0.png)
     
 
